@@ -75,6 +75,11 @@ const PublishedPage = () => {
       isEditing: false,
     };
 
+    // Pass slug to contact section for form submission
+    if (section.type === 'contact') {
+      props.slug = slug;
+    }
+
     switch (section.type) {
       case 'hero':
         return <HeroSection {...props} />;

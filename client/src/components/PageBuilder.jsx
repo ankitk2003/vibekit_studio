@@ -154,23 +154,23 @@ const PageBuilder = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-full px-6 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{page.title}</h1>
-            <p className="text-sm text-gray-500 mt-1">
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div className="w-full px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{page.title}</h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Status: <span className="font-semibold capitalize">{page.status}</span>
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
             {saved && (
-              <div className="text-green-600 text-sm font-medium">✓ Saved</div>
+              <div className="text-green-600 text-xs sm:text-sm font-medium whitespace-nowrap">✓ Saved</div>
             )}
             <button
               onClick={handlePublish}
               disabled={loading}
-              className="px-6 py-2 rounded-lg font-semibold transition"
+              className="flex-1 sm:flex-none px-4 sm:px-6 py-3 sm:py-2 min-h-11 rounded-lg font-semibold transition text-sm sm:text-base whitespace-nowrap"
               style={{
                 backgroundColor: page.status === 'published' ? '#EF4444' : '#10B981',
                 color: 'white',
@@ -182,19 +182,19 @@ const PageBuilder = () => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 p-6 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 max-w-7xl mx-auto w-full">
         {/* Sidebar - Controls */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="md:col-span-1 space-y-4">
           {/* Theme Selection */}
           <div className="bg-white rounded-lg p-4 shadow-sm">
-            <h3 className="font-semibold text-gray-900 mb-3">Theme</h3>
+            <h3 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">Theme</h3>
             <select
               value={page.theme}
               onChange={(e) => {
                 setPage({ ...page, theme: e.target.value });
                 setIsSaved(false);
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
             >
               {Object.entries(THEMES).map(([key, theme]) => (
                 <option key={key} value={key}>
@@ -206,20 +206,21 @@ const PageBuilder = () => {
 
           {/* Device Preview Toggle */}
           <div className="bg-white rounded-lg p-4 shadow-sm">
-            <h3 className="font-semibold text-gray-900 mb-3">Preview</h3>
-            <div className="flex gap-2">
+            <h3 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">Preview</h3>
+            <div className="grid grid-cols-3 gap-2">
               {['mobile', 'tablet', 'desktop'].map((device) => (
                 <button
                   key={device}
                   onClick={() => setPreviewDevice(device)}
-                  className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium capitalize transition ${
+                  className={`py-2 px-2 sm:px-3 rounded-lg text-xs sm:text-sm font-medium capitalize transition min-h-11 flex items-center justify-center ${
                     previewDevice === device
                       ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 active:bg-gray-200'
                   }`}
+                  title={device}
                 >
-                  {device === 'mobile' ? '📱' : device === 'tablet' ? '📱' : '🖥️'}
-                  {device}
+                  <span className="hidden xs:inline">{device === 'mobile' ? '📱' : device === 'tablet' ? '📱' : '🖥️'}</span>
+                  <span className="xs:hidden">{device === 'mobile' ? 'M' : device === 'tablet' ? 'T' : 'D'}</span>
                 </button>
               ))}
             </div>
@@ -227,16 +228,16 @@ const PageBuilder = () => {
 
           {/* Sections */}
           <div className="bg-white rounded-lg p-4 shadow-sm">
-            <h3 className="font-semibold text-gray-900 mb-3">Sections</h3>
+            <h3 className="font-semibold text-gray-900 mb-3 text-sm sm:text-base">Sections</h3>
             <div className="space-y-2">
               {page.content.sections.map((section, idx) => (
                 <button
                   key={section.id}
                   onClick={() => setEditingSection(section.id)}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition capitalize ${
+                  className={`w-full text-left px-4 py-3 rounded-lg transition capitalize text-sm min-h-11 flex items-center ${
                     editingSection === section.id
                       ? 'bg-blue-100 border-2 border-blue-500'
-                      : 'bg-gray-100 hover:bg-gray-200 border border-gray-300'
+                      : 'bg-gray-100 active:bg-gray-200 border border-gray-300'
                   }`}
                 >
                   <div className="font-medium text-gray-900">{section.type}</div>
@@ -247,16 +248,16 @@ const PageBuilder = () => {
         </div>
 
         {/* Main - Editor */}
-        <div className="lg:col-span-2">
+        <div className="md:col-span-1 lg:col-span-2">
           {editingSection && (
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
+            <div className="bg-white rounded-lg p-4 sm:p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                   Edit {page.content.sections.find((s) => s.id === editingSection)?.type}
                 </h3>
                 <button
                   onClick={() => setEditingSection(null)}
-                  className="px-4 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300"
+                  className="w-full sm:w-auto px-4 py-3 sm:py-2 min-h-11 bg-gray-200 text-gray-900 rounded-lg active:bg-gray-300 text-sm font-medium"
                 >
                   Done
                 </button>
@@ -269,19 +270,19 @@ const PageBuilder = () => {
           )}
 
           {!editingSection && (
-            <div className="bg-white rounded-lg p-6 shadow-sm text-center text-gray-500">
-              <p>Select a section to edit</p>
+            <div className="bg-white rounded-lg p-6 sm:p-8 shadow-sm text-center text-gray-500 min-h-96 flex items-center justify-center">
+              <p className="text-sm sm:text-base">Select a section to edit</p>
             </div>
           )}
         </div>
 
         {/* Preview */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg p-4 shadow-sm sticky top-6">
-            <h3 className="font-semibold text-gray-900 mb-4 text-center">Live Preview</h3>
+        <div className="md:col-span-1">
+          <div className="bg-white rounded-lg p-4 shadow-sm sticky md:top-24">
+            <h3 className="font-semibold text-gray-900 mb-4 text-center text-sm sm:text-base">Live Preview</h3>
 
             <div
-              className={`${getPreviewWidth()} mx-auto bg-gray-200 rounded-lg overflow-hidden border-8 border-gray-300`}
+              className={`${getPreviewWidth()} mx-auto bg-gray-200 rounded-lg overflow-hidden border-4 sm:border-8 border-gray-300`}
             >
               <style>{generateThemeCSS(page.theme)}</style>
               <div className="flex flex-col">
@@ -293,9 +294,9 @@ const PageBuilder = () => {
 
             {page.status === 'published' && (
               <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-sm text-green-700 font-medium">
+                <p className="text-xs sm:text-sm text-green-700 font-medium">
                   📤 Published at:<br />
-                  <code className="text-xs bg-green-100 px-2 py-1 rounded block mt-1">
+                  <code className="text-xs bg-green-100 px-2 py-1 rounded block mt-1 break-all">
                     /p/{page.slug}
                   </code>
                 </p>
