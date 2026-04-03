@@ -11,8 +11,12 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:bcryptjs@^2.4.3",
+        "npm:cookie@0.6",
         "npm:dotenv@^17.3.1",
+        "npm:drizzle-kit@~0.31.10",
         "npm:drizzle-orm@~0.45.2",
+        "npm:jsonwebtoken@9",
         "npm:netlify-cli@^24.9.0",
         "npm:pg@^8.20.0"
       ]

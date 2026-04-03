@@ -2,26 +2,24 @@ import { db } from "../../db/index.js";
 import { users } from "../../db/schema.js";
 import { verifyPassword } from "../../db/utils/password.js";
 import { generateToken, createAuthCookie } from "../../db/utils/jwt.js";
+import { getCORSHeaders, errorResponse } from "../../db/utils/auth.js";
 import { eq } from "drizzle-orm";
-import cookie from "cookie";
 
 export const handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: getCORSHeaders() };
+  }
+
   if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: "Method Not Allowed" }),
-    };
+    return errorResponse(405, "Method Not Allowed");
   }
 
   try {
-    const { email, password } = JSON.parse(event.body);
+    const { email, password } = JSON.parse(event.body || "{}");
 
     // Validate input
     if (!email || !password) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Email and password are required" }),
-      };
+      return errorResponse(400, "Email and password are required");
     }
 
     // Find user
@@ -31,10 +29,7 @@ export const handler = async (event) => {
       .where(eq(users.email, email));
 
     if (result.length === 0) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ error: "Invalid credentials" }),
-      };
+      return errorResponse(401, "Invalid credentials");
     }
 
     const user = result[0];
@@ -43,10 +38,7 @@ export const handler = async (event) => {
     const isPasswordValid = await verifyPassword(password, user.passwordHash);
 
     if (!isPasswordValid) {
-      return {
-        statusCode: 401,
-        body: JSON.stringify({ error: "Invalid credentials" }),
-      };
+      return errorResponse(401, "Invalid credentials");
     }
 
     // Generate JWT token
@@ -56,7 +48,7 @@ export const handler = async (event) => {
       statusCode: 200,
       headers: {
         "Set-Cookie": createAuthCookie(token),
-        "Content-Type": "application/json",
+        ...getCORSHeaders(),
       },
       body: JSON.stringify({
         message: "Login successful",
@@ -68,9 +60,6 @@ export const handler = async (event) => {
     };
   } catch (err) {
     console.error("Login error:", err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message || "Internal server error" }),
-    };
+    return errorResponse(500, err.message || "Internal server error");
   }
 };

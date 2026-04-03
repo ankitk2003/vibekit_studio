@@ -2,25 +2,24 @@ import { db } from "../../db/index.js";
 import { users } from "../../db/schema.js";
 import { hashPassword } from "../../db/utils/password.js";
 import { generateToken, createAuthCookie } from "../../db/utils/jwt.js";
+import { getCORSHeaders, successResponse, errorResponse } from "../../db/utils/auth.js";
 import { eq } from "drizzle-orm";
 
 export const handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: getCORSHeaders() };
+  }
+
   if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: "Method Not Allowed" }),
-    };
+    return errorResponse(405, "Method Not Allowed");
   }
 
   try {
-    const { email, name, password } = JSON.parse(event.body);
+    const { email, name, password } = JSON.parse(event.body || "{}");
 
     // Validate input
-    if (!email || !password || !name) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Email, name, and password are required" }),
-      };
+    if (!email || !password) {
+      return errorResponse(400, "Email and password are required");
     }
 
     // Check if user already exists
@@ -30,22 +29,18 @@ export const handler = async (event) => {
       .where(eq(users.email, email));
 
     if (existingUser.length > 0) {
-      return {
-        statusCode: 409,
-        body: JSON.stringify({ error: "User already exists" }),
-      };
+      return errorResponse(409, "User already exists");
     }
 
     // Hash password
     const hashedPassword = await hashPassword(password);
-    console.log("Hashed password:", hashedPassword);
 
     // Create user
     const result = await db
       .insert(users)
       .values({
         email,
-        name,
+        name: name || null,
         passwordHash: hashedPassword,
       })
       .returning();
@@ -59,7 +54,7 @@ export const handler = async (event) => {
       statusCode: 201,
       headers: {
         "Set-Cookie": createAuthCookie(token),
-        "Content-Type": "application/json",
+        ...getCORSHeaders(),
       },
       body: JSON.stringify({
         message: "User created successfully",
@@ -72,9 +67,6 @@ export const handler = async (event) => {
     };
   } catch (err) {
     console.error("Signup error:", err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message || "Internal server error" }),
-    };
+    return errorResponse(500, err.message || "Internal server error");
   }
 };

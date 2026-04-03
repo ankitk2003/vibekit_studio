@@ -3,4 +3,4 @@
 
 [dev]
   framework = "#static"
-  targetPort = 3999
+  staticServerPort = 4000

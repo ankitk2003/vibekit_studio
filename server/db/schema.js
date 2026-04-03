@@ -17,6 +17,7 @@ export const statusEnum = pgEnum("status", ["draft", "published"]);
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   email: text("email").unique().notNull(),
+  name: text("name"),
   passwordHash: text("password_hash").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
