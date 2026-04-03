@@ -65,8 +65,10 @@ export const handler = async (event) => {
         },
       }),
     };
+    ///
   } catch (err) {
     console.error("Signup error:", err);
     return errorResponse(500, err.message || "Internal server error");
   }
 };
+
