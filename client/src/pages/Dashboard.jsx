@@ -25,7 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPages = async () => {
       try {
-        const response = await fetch('/api/pages-list', {
+        const response = await fetch('/.netlify/functions/pages-list', {
           credentials: 'include',
         });
 
@@ -47,7 +47,7 @@ const Dashboard = () => {
     if (!newPageTitle.trim()) return;
 
     try {
-      const response = await fetch('/api/pages-create', {
+      const response = await fetch('/.netlify/functions/pages-create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,7 +72,7 @@ const Dashboard = () => {
   const handleDuplicate = async (pageId) => {
     try {
       const response = await fetch(
-        `/api/pages-duplicate?id=${pageId}`,
+        `/.netlify/functions/pages-duplicate?id=${pageId}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -94,7 +94,7 @@ const Dashboard = () => {
 
     try {
       const response = await fetch(
-        `/api/pages-detail?id=${pageId}`,
+        `/.netlify/functions/pages-detail?id=${pageId}`,
         {
           method: 'DELETE',
           credentials: 'include',
@@ -114,7 +114,7 @@ const Dashboard = () => {
     setSubmissionsLoading(true);
     try {
       const response = await fetch(
-        `/api/get-submissions?pageId=${pageId}`,
+        `/.netlify/functions/get-submissions?pageId=${pageId}`,
         {
           credentials: 'include',
         }
@@ -203,7 +203,7 @@ const Dashboard = () => {
 
                   <div className="flex flex-col xs:flex-row gap-2 items-start xs:items-center xs:gap-3 mb-3">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
+                      className={`px-3 py-1 rounded-full text-xs font-semibold c.netlify/functionstalize ${
                         page.status === 'published'
                           ? 'bg-green-100 text-green-700'
                           : 'bg-yellow-100 text-yellow-700'

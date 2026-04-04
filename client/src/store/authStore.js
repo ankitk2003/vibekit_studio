@@ -44,7 +44,7 @@ export const useAuthStore = create((set) => ({
   signup: async (name, email, password) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('/.netlify/functions/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -74,7 +74,7 @@ export const useAuthStore = create((set) => ({
   login: async (email, password) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/.netlify/functions/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -104,7 +104,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch('/api/logout', {
+      const response = await fetch('/.netlify/functions/logout', {
         method: 'POST',
         credentials: 'include',
       });
@@ -127,7 +127,7 @@ export const useAuthStore = create((set) => ({
   verifyAuth: async () => {
     set({ loading: true });
     try {
-      const response = await fetch('/api/verify', {
+      const response = await fetch('/.netlify/functions/verify', {
         method: 'GET',
         credentials: 'include',
       });

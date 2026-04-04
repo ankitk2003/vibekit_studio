@@ -42,7 +42,7 @@ function Footer() {
               </li>
               <li>
                 <Link to="/" className="text-gray-300 active:text-white focus:text-white transition py-2 block">
-                  API
+                  .netlify/functions
                 </Link>
               </li>
             </ul>

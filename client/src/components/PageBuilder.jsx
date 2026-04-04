@@ -34,7 +34,7 @@ const PageBuilder = () => {
 
     const fetchPage = async () => {
       try {
-        const response = await fetch(`/api/pages-detail?id=${id}`, {
+        const response = await fetch(`/.netlify/functions/pages-detail?id=${id}`, {
           credentials: 'include',
         });
 
@@ -56,7 +56,7 @@ const PageBuilder = () => {
 
     const timer = setTimeout(async () => {
       try {
-        await fetch(`/api/pages-detail?id=${id}`, {
+        await fetch(`/.netlify/functions/pages-detail?id=${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -132,7 +132,7 @@ const PageBuilder = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/pages-publish?id=${page.id}`,
+        `/.netlify/functions/pages-publish?id=${page.id}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -159,7 +159,7 @@ const PageBuilder = () => {
           <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{page.title}</h1>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Status: <span className="font-semibold capitalize">{page.status}</span>
+              Status: <span className="font-semibold c.netlify/functionstalize">{page.status}</span>
             </p>
           </div>
 
@@ -212,7 +212,7 @@ const PageBuilder = () => {
                 <button
                   key={device}
                   onClick={() => setPreviewDevice(device)}
-                  className={`py-2 px-2 sm:px-3 rounded-lg text-xs sm:text-sm font-medium capitalize transition min-h-11 flex items-center justify-center ${
+                  className={`py-2 px-2 sm:px-3 rounded-lg text-xs sm:text-sm font-medium c.netlify/functionstalize transition min-h-11 flex items-center justify-center ${
                     previewDevice === device
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 text-gray-700 active:bg-gray-200'
@@ -234,7 +234,7 @@ const PageBuilder = () => {
                 <button
                   key={section.id}
                   onClick={() => setEditingSection(section.id)}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition capitalize text-sm min-h-11 flex items-center ${
+                  className={`w-full text-left px-4 py-3 rounded-lg transition c.netlify/functionstalize text-sm min-h-11 flex items-center ${
                     editingSection === section.id
                       ? 'bg-blue-100 border-2 border-blue-500'
                       : 'bg-gray-100 active:bg-gray-200 border border-gray-300'

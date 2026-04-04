@@ -21,7 +21,7 @@ export const useAuthInit = () => {
     // Verify authentication using httpOnly cookie (credentials: include sends the cookie)
     const verifyAuth = async () => {
       try {
-        const response = await fetch('/api/auth/verify', {
+        const response = await fetch('/.netlify/functions/auth/verify', {
           method: 'GET',
           credentials: 'include', // Send httpOnly cookie with request
         });

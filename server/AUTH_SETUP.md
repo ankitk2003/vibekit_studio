@@ -13,7 +13,7 @@
 
 ### Signup
 ```
-POST /api/auth/signup
+POST /.netlify/functions/auth/signup
 Content-Type: application/json
 
 {
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 ### Login
 ```
-POST /api/auth/login
+POST /.netlify/functions/auth/login
 Content-Type: application/json
 
 {
@@ -62,7 +62,7 @@ The response includes a `Set-Cookie` header with the JWT token stored in an http
 
 ### Logout
 ```
-POST /api/auth/logout
+POST /.netlify/functions/auth/logout
 ```
 
 **Response (200):**

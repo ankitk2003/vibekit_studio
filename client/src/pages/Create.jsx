@@ -86,7 +86,7 @@ function Create() {
                     Editor coming soon!
                   </p>
                   <p className="text-sm sm:text-base text-gray-500">
-                    You've selected the <strong className="font-semibold capitalize">{selectedTemplate}</strong> template.
+                    You've selected the <strong className="font-semibold c.netlify/functionstalize">{selectedTemplate}</strong> template.
                     Full editor will be available soon.
                   </p>
                 </div>
