@@ -19,7 +19,7 @@ const PublishedPage = () => {
     const fetchPage = async () => {
       try {
         const response = await fetch(
-          `/.netlify/functions/public-page?slug=${slug}`
+          `/api/public-page?slug=${slug}`
         );
 
         if (!response.ok) {
@@ -32,7 +32,7 @@ const PublishedPage = () => {
         setPage(data.page);
 
         // Track view
-        fetch(`/.netlify/functions/public-track-view?slug=${slug}`, {
+        fetch(`/api/public-track-view?slug=${slug}`, {
           method: 'POST',
         }).catch(console.error);
       } catch (err) {

@@ -95,24 +95,24 @@ npm run dev  # Runs on http://localhost:5173
 ## 📚 API Endpoints
 
 ### Authentication
-- `POST /.netlify/functions/auth/signup` - Create account
-- `POST /.netlify/functions/auth/login` - Login
-- `POST /.netlify/functions/auth/logout` - Logout
-- `GET /.netlify/functions/auth/verify` - Verify auth from httpOnly cookie
+- `POST /api/auth/signup` - Create account
+- `POST /api/auth/login` - Login
+- `POST /api/auth/logout` - Logout
+- `GET /api/auth/verify` - Verify auth from httpOnly cookie
 
 ### Pages (Authenticated)
-- `GET /.netlify/functions/pages/list` - Get user's pages
-- `POST /.netlify/functions/pages/create` - Create new page
-- `GET /.netlify/functions/pages/detail?id=...` - Get page details
-- `PUT /.netlify/functions/pages/detail?id=...` - Update page
-- `DELETE /.netlify/functions/pages/detail?id=...` - Delete page
-- `POST /.netlify/functions/pages/publish?id=...` - Toggle publish status
-- `POST /.netlify/functions/pages/duplicate?id=...` - Duplicate page
+- `GET /api/pages/list` - Get user's pages
+- `POST /api/pages/create` - Create new page
+- `GET /api/pages/detail?id=...` - Get page details
+- `PUT /api/pages/detail?id=...` - Update page
+- `DELETE /api/pages/detail?id=...` - Delete page
+- `POST /api/pages/publish?id=...` - Toggle publish status
+- `POST /api/pages/duplicate?id=...` - Duplicate page
 
 ### Public Pages
-- `GET /.netlify/functions/public/page?slug=...` - View published page
-- `POST /.netlify/functions/public/track-view?slug=...` - Track page view
-- `POST /.netlify/functions/public/contact?slug=...` - Submit contact form
+- `GET /api/public/page?slug=...` - View published page
+- `POST /api/public/track-view?slug=...` - Track page view
+- `POST /api/public/contact?slug=...` - Submit contact form
 
 ## 📁 Project Structure
 
@@ -264,7 +264,7 @@ netlify deploy --prod
 
 **Create Page:**
 ```bash
-curl -X POST https://your-site.netlify.app/.netlify/functions/pages/create \
+curl -X POST https://your-site.netlify.app/api/pages/create \
   -H "Content-Type: application/json" \
   -H "Cookie: auth_token=your_token" \
   -d '{"title":"My Page","theme":"minimal"}'
@@ -272,7 +272,7 @@ curl -X POST https://your-site.netlify.app/.netlify/functions/pages/create \
 
 **Get Published Page:**
 ```bash
-curl https://your-site.netlify.app/.netlify/functions/public/page?slug=my-page
+curl https://your-site.netlify.app/api/public/page?slug=my-page
 ```
 
 ## 🛠️ Development Tips

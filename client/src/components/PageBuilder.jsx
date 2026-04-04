@@ -34,7 +34,7 @@ const PageBuilder = () => {
 
     const fetchPage = async () => {
       try {
-        const response = await fetch(`/.netlify/functions/pages-detail?id=${id}`, {
+        const response = await fetch(`/api/pages-detail?id=${id}`, {
           credentials: 'include',
         });
 
@@ -56,7 +56,7 @@ const PageBuilder = () => {
 
     const timer = setTimeout(async () => {
       try {
-        await fetch(`/.netlify/functions/pages-detail?id=${id}`, {
+        await fetch(`/api/pages-detail?id=${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -132,7 +132,7 @@ const PageBuilder = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `/.netlify/functions/pages-publish?id=${page.id}`,
+        `/api/pages-publish?id=${page.id}`,
         {
           method: 'POST',
           credentials: 'include',

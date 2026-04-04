@@ -37,7 +37,7 @@ export const useAuth = () => {
     setAuthError(null);
 
     try {
-      const response = await fetch('/.netlify/functions/signup', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -73,7 +73,7 @@ export const useAuth = () => {
     setAuthError(null);
 
     try {
-      const response = await fetch('/.netlify/functions/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -109,7 +109,7 @@ export const useAuth = () => {
     setAuthError(null);
 
     try {
-      await fetch('/.netlify/functions/auth/logout', {
+      await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });

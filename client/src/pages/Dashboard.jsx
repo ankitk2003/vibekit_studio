@@ -25,7 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPages = async () => {
       try {
-        const response = await fetch('/.netlify/functions/pages-list', {
+        const response = await fetch('/api/pages-list', {
           credentials: 'include',
         });
 
@@ -47,7 +47,7 @@ const Dashboard = () => {
     if (!newPageTitle.trim()) return;
 
     try {
-      const response = await fetch('/.netlify/functions/pages-create', {
+      const response = await fetch('/api/pages-create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,7 +72,7 @@ const Dashboard = () => {
   const handleDuplicate = async (pageId) => {
     try {
       const response = await fetch(
-        `/.netlify/functions/pages-duplicate?id=${pageId}`,
+        `/api/pages-duplicate?id=${pageId}`,
         {
           method: 'POST',
           credentials: 'include',
@@ -94,7 +94,7 @@ const Dashboard = () => {
 
     try {
       const response = await fetch(
-        `/.netlify/functions/pages-detail?id=${pageId}`,
+        `/api/pages-detail?id=${pageId}`,
         {
           method: 'DELETE',
           credentials: 'include',
@@ -114,7 +114,7 @@ const Dashboard = () => {
     setSubmissionsLoading(true);
     try {
       const response = await fetch(
-        `/.netlify/functions/get-submissions?pageId=${pageId}`,
+        `/api/get-submissions?pageId=${pageId}`,
         {
           credentials: 'include',
         }

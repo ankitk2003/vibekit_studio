@@ -300,7 +300,7 @@ export const ContactSection = ({ data, onEdit, isEditing, slug }) => {
 
     try {
       const response = await fetch(
-        `/.netlify/functions/public-contact?slug=${slug}`,
+        `/api/public-contact?slug=${slug}`,
         {
           method: 'POST',
           headers: {
